@@ -1,15 +1,11 @@
 package an.royal.gateway.http.controllers;
 
-import an.royal.gateway.grpc.GreetServiceGrpc;
-import an.royal.gateway.grpc.GreetServiceProto;
 import an.royal.gateway.http.constants.ResponseErrorCode;
 import an.royal.gateway.http.dto.requests.SayHelloReq;
 import an.royal.gateway.http.dto.responses.ErrorResp;
 import an.royal.gateway.http.dto.responses.HttpResponse;
 import an.royal.gateway.http.dto.responses.SayHelloResp;
 import an.royal.gateway.http.services.IEncodeService;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by carl.huang on 12/05/2017.
@@ -55,19 +50,19 @@ public class GreeterController {
                             new ErrorResp(ResponseErrorCode.USER_NOT_FOUND, "Cannot find user.")));
         }
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(greetServiceHost, greetServicePort).usePlaintext(true).build();
-        GreetServiceGrpc.GreetServiceBlockingStub blockingStub = GreetServiceGrpc.newBlockingStub(channel);
+//        ManagedChannel channel = ManagedChannelBuilder.forAddress(greetServiceHost, greetServicePort).usePlaintext(true).build();
+//        GreetServiceGrpc.GreetServiceBlockingStub blockingStub = GreetServiceGrpc.newBlockingStub(channel);
+//
+//        GreetServiceProto.HelloCommand command = GreetServiceProto.HelloCommand.newBuilder()
+//                .setEventId(UUID.randomUUID().toString())
+//                .setName(greeter)
+//                .setGreeting(req.getGreeting())
+//                .build();
+//
+//        GreetServiceProto.HelloCommandAck ack = blockingStub.sayHello(command);
+//        log.info("Got response from gRPC server: {}", ack);
 
-        GreetServiceProto.HelloCommand command = GreetServiceProto.HelloCommand.newBuilder()
-                .setEventId(UUID.randomUUID().toString())
-                .setName(greeter)
-                .setGreeting(req.getGreeting())
-                .build();
-
-        GreetServiceProto.HelloCommandAck ack = blockingStub.sayHello(command);
-        log.info("Got response from gRPC server: {}", ack);
-
-        return ResponseEntity.ok(new SayHelloResp(req.getRequestId(), ack.getMessage()));
+        return ResponseEntity.ok(new SayHelloResp(req.getRequestId(), null));
     }
 
 
