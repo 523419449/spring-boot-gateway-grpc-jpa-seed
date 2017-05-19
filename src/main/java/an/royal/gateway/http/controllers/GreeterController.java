@@ -26,6 +26,7 @@ import java.util.UUID;
  * Created by carl.huang on 12/05/2017.
  */
 @RestController
+@RequestMapping("/greet")
 public class GreeterController {
     private static final Logger log = LoggerFactory.getLogger(GreeterController.class);
 
