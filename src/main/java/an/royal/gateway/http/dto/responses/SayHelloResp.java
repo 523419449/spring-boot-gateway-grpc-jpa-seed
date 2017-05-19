@@ -9,10 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class SayHelloResp extends HttpResponse {
     private String greeting;
 
-    public SayHelloResp(String requestId) {
-        super(requestId);
-    }
-
     public SayHelloResp(String requestId, String greeting) {
         super(requestId);
         this.greeting = greeting;

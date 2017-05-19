@@ -67,7 +67,7 @@ public class GreeterController {
         GreetServiceProto.HelloCommandAck ack = blockingStub.sayHello(command);
         log.info("Got response from gRPC server: {}", ack);
 
-        return ResponseEntity.ok(new SayHelloResp(ack.getMessage()));
+        return ResponseEntity.ok(new SayHelloResp(req.getRequestId(), ack.getMessage()));
     }
 
 
