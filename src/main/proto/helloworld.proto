@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_package = "an.royal.gateway.grpc";
+option java_outer_classname = "GreetServiceProto";
+
+package command;
+
+service GreetService {
+  rpc SayHello (HelloCommand) returns (HelloCommandAck) {}
+}
+
+message HelloCommand {
+  string eventId = 1;
+  string name = 2;
+  string greeting = 3;
+}
+
+message HelloCommandAck {
+  string message = 1;
+  int64 version = 2;
+}
+
+message GreetWordsQuery {
+  string eventId = 1;
+  string limit = 2;
+}
+
+message GreetWordsQueryAck {
+  repeated string words = 1;
+  int64 version = 2;
+}
