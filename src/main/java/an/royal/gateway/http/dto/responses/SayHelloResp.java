@@ -1,4 +1,4 @@
-package an.royal.gateway.http.dto.resp;
+package an.royal.gateway.http.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,4 +1,4 @@
-package an.royal.gateway.http.dto.resp;
+package an.royal.gateway.http.dto.responses;
 
 import an.royal.gateway.http.constants.ResponseErrorCode;
 

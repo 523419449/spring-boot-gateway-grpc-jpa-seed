@@ -1,4 +1,4 @@
-package an.royal.gateway.http.dto.req;
+package an.royal.gateway.http.dto.requests;
 
 import org.apache.logging.log4j.core.util.UuidUtil;
 

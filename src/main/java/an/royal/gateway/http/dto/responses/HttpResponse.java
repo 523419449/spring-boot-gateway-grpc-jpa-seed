@@ -1,4 +1,4 @@
-package an.royal.gateway.http.dto.resp;
+package an.royal.gateway.http.dto.responses;
 
 /**
  * Created by carl.huang on 19/05/2017.

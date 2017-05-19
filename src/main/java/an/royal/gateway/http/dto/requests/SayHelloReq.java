@@ -1,4 +1,4 @@
-package an.royal.gateway.http.dto.req;
+package an.royal.gateway.http.dto.requests;
 
 /**
  * Created by carl.huang on 19/05/2017.
