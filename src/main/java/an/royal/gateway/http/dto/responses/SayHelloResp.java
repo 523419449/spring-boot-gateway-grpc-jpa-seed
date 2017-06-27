@@ -6,8 +6,7 @@ package an.royal.gateway.http.dto.responses;
 public class SayHelloResp extends HttpResponse {
     private String greeting;
 
-    public SayHelloResp(String requestId, String greeting) {
-        super(requestId);
+    public SayHelloResp(String greeting) {
         this.greeting = greeting;
     }
 

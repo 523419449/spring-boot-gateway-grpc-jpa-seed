@@ -1,19 +1,15 @@
 package an.royal.gateway.http.controllers;
 
-import an.royal.gateway.grpc.GreetServiceGrpc;
 import an.royal.gateway.grpc.GreetServiceProto;
 import an.royal.gateway.http.constants.ResponseErrorCode;
 import an.royal.gateway.http.dto.requests.SayHelloReq;
 import an.royal.gateway.http.dto.responses.ErrorResp;
 import an.royal.gateway.http.dto.responses.HttpResponse;
 import an.royal.gateway.http.dto.responses.SayHelloResp;
-import an.royal.gateway.http.services.IEncodeService;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import an.royal.gateway.http.services.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +28,7 @@ public class GreeterController {
     // For demonstrating error response
     private List<String> validUserNames = Arrays.asList("Royalan", "Carl", "Cockroach");
 
-    private IEncodeService encodeService;
-
-    private String greetServiceHost;
-    private Integer greetServicePort;
+    private IUserService userService;
 
     /**
      * Greet to service.
@@ -50,38 +43,17 @@ public class GreeterController {
         if (!validUserNames.contains(greeter)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new HttpResponse(
-                            req.getRequestId(),
-                            new ErrorResp(ResponseErrorCode.USER_NOT_FOUND, "Cannot find user.")));
+                            new ErrorResp(req.getRequestId(), ResponseErrorCode.USER_NOT_FOUND, "Cannot find user.")));
         }
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(greetServiceHost, greetServicePort).usePlaintext(true).build();
-        GreetServiceGrpc.GreetServiceBlockingStub blockingStub = GreetServiceGrpc.newBlockingStub(channel);
+        GreetServiceProto.HelloCommandAck ack = userService.sayHello(req.getRequestId(), greeter, req.getGreeting());
+        log.info(req.getRequestId() + ": Got response from gRPC server: {}", ack);
 
-        GreetServiceProto.HelloCommand command = GreetServiceProto.HelloCommand.newBuilder()
-                .setEventId(req.getRequestId())
-                .setName(greeter)
-                .setGreeting(req.getGreeting())
-                .build();
-
-        GreetServiceProto.HelloCommandAck ack = blockingStub.sayHello(command);
-        log.info("Got response from gRPC server: {}", ack);
-
-        return ResponseEntity.ok(new SayHelloResp(req.getRequestId(), ack.getMessage()));
+        return ResponseEntity.ok(new SayHelloResp(ack.getMessage()));
     }
-
 
     @Autowired
-    public void setEncodeService(IEncodeService encodeService) {
-        this.encodeService = encodeService;
-    }
-
-    @Value("${greet.service.grpc.host}")
-    public void setGreetServiceHost(String greetServiceHost) {
-        this.greetServiceHost = greetServiceHost;
-    }
-
-    @Value("${greet.service.grpc.port}")
-    public void setGreetServicePort(Integer greetServicePort) {
-        this.greetServicePort = greetServicePort;
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
     }
 }

@@ -7,24 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class HttpResponse {
-    private String requestId;
     private ErrorResp error;
 
-    public HttpResponse(String requestId) {
-        this.requestId = requestId;
+    public HttpResponse() {
     }
 
-    public HttpResponse(String requestId, ErrorResp error) {
-        this.requestId = requestId;
+    public HttpResponse(ErrorResp error) {
         this.error = error;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
     }
 
     public ErrorResp getError() {
